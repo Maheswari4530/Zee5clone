@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="icon" href="https://www.zee5.com/images/ZEE5_logo.svg?ver=2.52.15">
+    <link rel="stylesheet" href="Register.css">
+</head>
+<style>
+    body{
+    background-color:#020516;
+}
+#pageCancel{
+    text-align: right;
+    width: 92%;
+    margin: auto;
+    color: white;
+    margin-top: 50px;
+}
+#pageCancel>h5{
+    cursor: pointer;
+}
+#firstH4{
+    text-align: center;
+    color: white;
+    margin-top: 35px;
+    font-family: NotoSansBold,sans-serif;
+}
+#firstP{
+    text-align: center;
+    color: lightgrey;
+    font-size: 15px;
+    margin-top: 30px;
+    font-family: NotoSansBold,sans-serif;
+}
+#googleIcon{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    right: 3.7px;
+    cursor: pointer;
+}
+#orDiv{
+    margin-left: 48.5%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    border-radius: 50%;
+    background-color: rgb(41, 40, 40);
+    width: 33px;
+    height: 30px;
+    align-items: center;
+    padding-bottom: 3px;
+}
+#firstForm{
+    margin-top: 30px;
+    text-align: center;
+}
+#firstForm>a{
+    color: blueviolet;
+    text-decoration: none;
+    font-family: NotoSansMedium,sans-serif;
+}
+#firstForm>button{
+    margin-top: 8px;
+    width: 300px;
+    border-radius: 5px;
+    height: 37px;
+    background-color: #020516;
+    color: grey;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+#frstH5{
+    font-family: NotoSansMedium,sans-serif;
+    color: beige;
+}
+#frstH5>a{
+    color: blueviolet;
+    text-decoration: none;
+    font-family: NotoSansMedium,sans-serif;
+}
+#loginInput{
+    box-sizing: border-box;
+    height: 37px;
+    font-family: NotoSansMedium,sans-serif;
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background-color: #020516;
+    color: grey;
+    border: none;
+    border-bottom: 1px solid grey;
+}
+#label1{
+    color: lightgray;
+    position: relative;
+    right: 54.7px;
+    font-family: NotoSansBold,sans-serif;
+    font-size: small;
+}
+#scndH5{
+    color: beige;
+    font-family: NotoSansMedium,sans-serif;
+}
+#scndH5>a{
+    color: blueviolet;
+    text-decoration: none;
+    font-family: NotoSansMedium,sans-serif;
+}
+#enterOtp{
+    height: 80px;
+}
+#enterOtpPostAlert>input{
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: NotoSansMedium,sans-serif;
+}
+#enterOtpPostAlert>label{
+    color: white;
+    font-weight: bolder;
+    font-family: NotoSansMedium,sans-serif;
+}
+#enterOtpPostAlert>button{
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+#enterOtp{
+    visibility:hidden;
+}
+#enterOtpPostAlert{
+    position: absolute;
+    top: 42%;
+    left: 42%;
+    z-index: 100;
+    visibility: visible;
+    background-color: green;
+    width: 250px;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+</style>
+<body>
+    <div id="pageCancel"><h5>X</h5></div>
+    <h4 id="firstH4">Create a new account</h4>
+    <p id="firstP">Create an account to continue enjoying uninterrupted video and <br> personalised experience.</p>
+    <div id="googleIcon"><img src="https://www.zee5.com/images/google-social-icon-circle.svg?ver=2.51.78" alt=""></div>
+    <div id="orDiv">or</div>
+    <form id="firstForm" action="">
+        <label id="label1" for="">Enter mobile number or Email Id</label>
+        <br>
+        <input id="loginInput" type="text" placeholder="Enter details here">
+        <br>
+        <h5 id="frstH5">By proceeding you agree to our <a href="">Terms of Services</a> & <a href="">Privacy Policy</a>.</h5>
+        <br>
+        <button>Send OTP</button>
+        <h5 id="scndH5">Already registered? <a href="logIn.html">Login</a></h5>
+    </form>
+
+    </form>
+    <form id="enterOtp" action="">
+        <label for="">Enter OTP</label>
+        <br>
+        <input id="enteredOtp" type="text" placeholder="Enter OTP here">
+        <br>
+        <button>Submit</button>
+    </form>
+    <script>
+        let form=document.querySelector("#firstForm");
+    let otpBox=document.getElementById("enterOtp");
+    let masaiOTP="Masai20";
+    let count=0;
+    let registerArr=JSON.parse(localStorage.getItem("registerData")) || [];
+
+    form.addEventListener("submit",sendOtp);
+
+    function sendOtp()
+    {
+        count=0;
+        event.preventDefault();
+        if(form.loginInput.value=="")
+        {
+            alert("Please fill the details first!");
+        }
+        else
+        {
+            for(let i=0;i<registerArr.length;i++)
+            {
+                if(form.loginInput.value===registerArr[i])
+                {
+                    count++;
+                    break;
+                }
+            }
+            if(count===1)
+            {
+                alert("Already registered."+"\n"+"You may directly Log in."+"\n"+"Thank you! :)");
+            }
+            else
+            {
+            alert("OTP Sent.");
+            otpBox.setAttribute("id","enterOtpPostAlert");
+            }
+        }
+        
+    }
+    otpBox.addEventListener("submit",finalSubmit);
+    function finalSubmit()
+    {
+        event.preventDefault();
+        if(otpBox.enteredOtp.value=="")
+        {
+            alert("Please enter the OTP you received before submitting!");
+        }
+        else if(otpBox.enteredOtp.value==masaiOTP)
+        {
+            registerArr.push(form.loginInput.value);
+            localStorage.setItem("registerData",JSON.stringify(registerArr));
+            alert("Registration Successful! Now you can log in. :)");
+            otpBox.setAttribute("id","enterOtp");
+            location.href="logIn.html";
+        }
+        else
+        {
+            alert("Please enter the correct OTP!");
+        }
+    }
+
+    let cross=document.querySelector("#pageCancel>h5");
+    cross.addEventListener("click",goBackToLogin);
+
+    function goBackToLogin()
+    {
+        location.href="logIn.html";
+    }
+
+    </script>
+</body>
+</html>
